@@ -1,0 +1,133 @@
+#This project was done with the help 
+
+# YouTube Trending Search Tool
+
+A local search dashboard for 133,000+ trending YouTube videos across 11 countries.
+
+---
+
+## Setup
+
+1. Put all 4 files in the same folder:
+   - `search_server.py`
+   - `search_dashboard.html`
+   - `ytdata.json`
+   - `README.md`
+
+2. Run the server:
+   ```
+   python3 search_server.py
+   ```
+
+3. Open your browser to: **http://localhost:8765**
+
+> ⚠️ Always open `http://localhost:8765` in your browser — do not double-click the HTML file directly, as it won't be able to load data that way.
+
+---
+
+## On startup
+
+The page automatically loads the **all-time top 50 most popular** and **top 50 most controversial** videos from the entire dataset — no search needed. You'll see these as soon as the page opens.
+
+---
+
+## Searching
+
+The filter panel is on the **left sidebar**, styled with collapsible Include and Exclude sections. Results appear on the **right**.
+
+### Include & Exclude
+
+Each section has an **Any field** bar at the top, plus three expandable sub-filters:
+
+| Sub-filter | Searches in |
+|------------|-------------|
+| Any field  | Title + tags + description (combined) |
+| Title      | Video title only |
+| Tags       | Video tags only |
+| Channel    | Channel name only |
+
+- Type a keyword and press **Enter** to add it as a filter pill
+- Press **Backspace** on an empty field to remove the last pill
+- Press **Enter** on an empty field (or click **Search**) to run
+- Multiple pills within the same field are OR'd together
+- Filters across different fields are AND'd (e.g. Title="minecraft" + Exclude Tags="roblox" both apply)
+- Clearing all filters and searching reloads the all-time charts
+
+---
+
+## Results
+
+### Country tabs
+After a search, a row of country buttons appears showing only countries that have matching results. Click any to filter the current tab to that country only. "🌍 All" shows results from every country combined.
+
+**Countries covered:** 🇧🇷 Brazil · 🇨🇦 Canada · 🇩🇪 Germany · 🇫🇷 France · 🇬🇧 UK · 🇮🇳 India · 🇯🇵 Japan · 🇰🇷 South Korea · 🇲🇽 Mexico · 🇷🇺 Russia · 🇺🇸 USA
+
+### Result tabs
+
+| Tab | What it shows |
+|-----|---------------|
+| 🔥 Most Popular | Top 50 by total view count |
+| ⚡ Most Controversial | Videos flagged as controversial (see below) |
+| 📺 Channels | Channel names that matched your keyword but had no matching videos |
+| 🏷️ Top Tags | Most-used tags across all matched videos, clickable to search |
+
+### Video cards
+Each video card has four columns:
+- **Rank** — position in the list
+- **Title + metadata** — click to open a detail popup with full tags and description
+- **Stats** — view count, like rate bar, likes and comments
+- **Analysis** — tag pills from that video (dominant tags highlighted in blue); the **#1 ranked video** also shows a cross-video summary bar chart (see below)
+
+---
+
+## Analysis widget
+
+The analysis column on each card shows the tags from that video. Tags that appear frequently across the **top 20 results** are highlighted in blue as "dominant."
+
+For the **#1 ranked video**, the widget shows a summary of the top 20:
+- **Keyword in Top 20** — what % of the top 20 results contain your primary keyword
+- **Co-tags** — the most common tags appearing alongside your keyword across the top 20, shown as percentage bars
+- **Channel** — the most dominant channel in the top 20 and how many times it appears
+- **Global Tag Popularity** — once loaded, shows what % of the entire 133K dataset has your keyword as a tag, plus the top co-occurring tags globally
+
+Clicking any tag pill runs a new search for that tag.
+
+---
+
+## Controversy criteria
+
+A video is flagged as controversial when it has comments **and** meets at least one of:
+
+- **Like rate < 5%** — fewer than 5 likes per 100 views
+- **Comment rate < 0.5%** — fewer than 0.5 comments per 100 views
+
+Videos with zero comments are excluded. The controversial tab ranks by a severity score that weighs both the engagement imbalance and the total view count.
+
+---
+
+## Detail popup
+
+Click any video title to open a popup showing:
+- Full title, country, category, channel
+- Exact view / like / comment counts and like rate %
+- All tags as pills
+- Full description text
+
+---
+
+## Requirements
+
+- Python 3.6+
+- No extra packages needed (standard library only)
+
+---
+
+## Quick launch (Windows)
+
+To avoid typing commands every time, create a file called `launch.bat` in the same folder with this content:
+
+```
+python D:\your-folder\search_server.py
+```
+
+Then double-click `launch.bat` to start the server, and open `http://localhost:8765` in your browser.
